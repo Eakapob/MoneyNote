@@ -1,0 +1,46 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  USERID        Int         @id @default(autoincrement())
+  EMAIL         String      @unique
+  USERNAME      String      @unique
+  USERPASSWORD  String 
+  CreateAt      DateTime    @default(now())
+  updateAt      DateTime    @updatedAt
+
+  wallets     Wallet[]
+  transactions Transaction[]
+}
+
+model Wallet{
+  WALLETID      Int         @id @default(autoincrement())
+  USERID        Int
+  TOTALBALANCE  Int
+  TRANSACTIONID Int?
+
+  user    User    @relation(fields: [USERID],references: [USERID])
+  transaction   Transaction[]
+
+}
+
+model Transaction{
+  TRANSACTIONID Int         @id @default(autoincrement())
+  USERID        Int        
+  WALLETID      Int 
+  TYPE          String
+  AMOUNT        Int
+  CATEGORY      String
+  NOTE          String
+
+  user    User    @relation(fields: [USERID],references: [USERID])
+  wallet  Wallet  @relation(fields: [WALLETID],references: [WALLETID])
+}
