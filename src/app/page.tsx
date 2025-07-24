@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/signin");
+    router.push("/auth/signin");
   }, [router]);
 
   return null;
