@@ -57,7 +57,7 @@ const SignUpForm = () => {
       })
     })
     if(response.ok){
-      router.push('/auth/signin')
+      router.push('/signin')
     }else {
       console.error('Register fail!!!')
     }

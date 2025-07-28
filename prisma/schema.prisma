@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,37 +8,36 @@ datasource db {
 }
 
 model User {
-  USERID        Int         @id @default(autoincrement())
-  EMAIL         String      @unique
-  USERNAME      String      @unique
-  USERPASSWORD  String 
-  CreateAt      DateTime    @default(now())
-  updateAt      DateTime    @updatedAt
+  userid       Int      @id @default(autoincrement()) 
+  email        String   @unique 
+  username     String   @unique 
+  userpassword String   
+  CreateAt     DateTime @default(now())
+  updateAt     DateTime @updatedAt
 
-  wallets     Wallet[]
+  wallets      Wallet[]
   transactions Transaction[]
 }
 
-model Wallet{
-  WALLETID      Int         @id @default(autoincrement())
-  USERID        Int
-  TOTALBALANCE  Int
-  TRANSACTIONID Int?
+model Wallet {
+  walletid      Int  @id @default(autoincrement())
+  userid        Int  
+  totalbalance  Int  
+  transactionid Int? 
 
-  user    User    @relation(fields: [USERID],references: [USERID])
-  transaction   Transaction[]
-
+  user        User          @relation(fields: [userid], references: [userid])
+  transaction Transaction[]
 }
 
-model Transaction{
-  TRANSACTIONID Int         @id @default(autoincrement())
-  USERID        Int        
-  WALLETID      Int 
-  TYPE          String
-  AMOUNT        Int
-  CATEGORY      String
-  NOTE          String
+model Transaction {
+  transactionid Int    @id @default(autoincrement())
+  userid        Int    
+  walletid      Int    
+  type          String 
+  amount        Int    
+  category      String 
+  note          String 
 
-  user    User    @relation(fields: [USERID],references: [USERID])
-  wallet  Wallet  @relation(fields: [WALLETID],references: [WALLETID])
+  user   User   @relation(fields: [userid], references: [userid])
+  wallet Wallet @relation(fields: [walletid], references: [walletid])
 }

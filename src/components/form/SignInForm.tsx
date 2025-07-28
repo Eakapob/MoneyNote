@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -26,6 +27,7 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -38,8 +40,13 @@ const SignInForm = () => {
     const signInData = await signIn('credentials',{
       email: values.email,
       password: values.password,
+      redirect: false
     })
-    console.log(signInData);
+    if(signInData?.error) {
+      console.log(signInData.error)
+    } else {
+      router.push('/dashboard');
+    }
   };
 
   return (

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     //check if email exists
     const existtingUserByEmail = await db.user.findUnique({
-      where: { EMAIL: email },
+      where: { email: email },
     });
     if (existtingUserByEmail) {
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
     //check if username exists
     const existtingUserByUsername = await db.user.findUnique({
-      where: { USERNAME: username },
+      where: { username: username },
     });
     if (existtingUserByUsername) {
       return NextResponse.json(
@@ -44,12 +44,12 @@ export async function POST(req: Request) {
 
     const newUser = await db.user.create({
       data: {
-        USERNAME: username,
-        EMAIL: email,
-        USERPASSWORD: hashedPassword,
+        username: username,
+        email: email,
+        userpassword: hashedPassword,
       },
     });
-    const { USERPASSWORD: newUserPassword, ...rest } = newUser;
+    const { userpassword: newUserPassword, ...rest } = newUser;
 
     return NextResponse.json(
       { user: rest, message: "User created successfully" },
