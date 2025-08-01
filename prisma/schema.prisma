@@ -8,22 +8,22 @@ datasource db {
 }
 
 model User {
-  userid       Int      @id @default(autoincrement()) 
-  email        String   @unique 
-  username     String   @unique 
-  userpassword String   
+  userid       Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  userpassword String
   CreateAt     DateTime @default(now())
   updateAt     DateTime @updatedAt
 
   wallets      Wallet[]
-  transactions Transaction[]
 }
 
 model Wallet {
-  walletid      Int  @id @default(autoincrement())
-  userid        Int  
-  totalbalance  Int  
-  transactionid Int? 
+  walletid     Int      @id @default(autoincrement())
+  userid       Int
+  namewallet   String
+  totalbalance Float
+  createdAt    DateTime @default(now())
 
   user        User          @relation(fields: [userid], references: [userid])
   transaction Transaction[]
@@ -31,13 +31,11 @@ model Wallet {
 
 model Transaction {
   transactionid Int    @id @default(autoincrement())
-  userid        Int    
-  walletid      Int    
-  type          String 
-  amount        Int    
-  category      String 
-  note          String 
+  walletid      Int
+  type          String
+  amount        Int
+  category      String
+  note          String
 
-  user   User   @relation(fields: [userid], references: [userid])
   wallet Wallet @relation(fields: [walletid], references: [walletid])
 }

@@ -5,15 +5,16 @@ import Link from "next/link";
 import React from "react";
 import { Button, buttonVariants } from "./ui/button";
 import UserAccountsidebar from "./UserAccountsidebar";
+import WalletForm from "./WalletForm";
 
 const Sidebar = async () => {
   const session = await getServerSession(authOptions)
   return (
     <div className="w-full bg-[#F9FBFD] border-l border-[#79C3ED] p-4 h-screen">
       {session?.user ? (
-        <UserAccountsidebar/>
+        <UserAccountsidebar />
       ) : (
-        <Link className={buttonVariants()} href="/signin"> 
+        <Link className={buttonVariants()} href="/signin">
           SignIn
         </Link>
       )}
@@ -22,7 +23,7 @@ const Sidebar = async () => {
         <li>ข้อมูลผู้ใช้</li>
       </ul>
       <div className="w-[280px] h-[152px] rounded-lg shadow-md">
-
+        <WalletForm />
       </div>
     </div>
   );
