@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./db";
 import { compare } from "bcrypt";
 
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
@@ -44,6 +43,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: String(existingUser.userid),
+          userid: existingUser.userid,
           username: existingUser.username,
           email: existingUser.userpassword,
         };
@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           username: user.username,
+          userid: user.userid, // เก็บไว้ใน token
         };
       }
       return token;
@@ -67,6 +68,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           username: token.username,
+          userid: token.userid,
         },
       };
     },

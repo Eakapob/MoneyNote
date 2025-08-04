@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { Button, buttonVariants } from "./ui/button";
 import UserAccountsidebar from "./UserAccountsidebar";
-import WalletForm from "./WalletForm";
+import WalletForm from "./form/WalletForm";
 
 const Sidebar = async () => {
   const session = await getServerSession(authOptions)

@@ -17,6 +17,7 @@ import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from "sonner"
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -43,10 +44,11 @@ const SignInForm = () => {
       redirect: false
     })
     if(signInData?.error) {
-      console.log(signInData.error)
+      toast("Signin Fail!!!")
     } else {
       router.refresh();
       router.push('/dashboard');
+      toast("Singin has been success!.")
     }
   };
 
