@@ -22,7 +22,7 @@ const Sidebar = async () => {
         <li>ตั้งค่า</li>
         <li>ข้อมูลผู้ใช้</li>
       </ul>
-      <div className="w-[280px] h-[152px] rounded-lg shadow-md">
+      <div className="w-full">
         <WalletForm />
       </div>
     </div>

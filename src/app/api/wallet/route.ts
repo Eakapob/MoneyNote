@@ -28,3 +28,12 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const wallets = await db.wallet.findMany()
+    return NextResponse.json(wallets)
+  } catch (error) {
+    return NextResponse.json({ error: "Fail to fetch wallet" }, { status: 500 })
+  }
+}
