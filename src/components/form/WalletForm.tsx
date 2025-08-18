@@ -3,6 +3,7 @@
 import { Wallet } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 
 const WalletForm = () => {
   const [namewallet, setNamewallet] = useState("");
@@ -21,6 +22,10 @@ const WalletForm = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    flushSync(() => {
+      setAdding(false);
+    });
 
     if (!userid) {
       alert("คุณต้องเข้าสู่ระบบก่อน");
@@ -43,6 +48,29 @@ const WalletForm = () => {
       fetchWalletData();
     } else {
       alert(data.error || "Something went wrong!!!");
+    }
+  };
+
+  //update wallet
+  const handleUpdate = async () => {
+    const res = await fetch("/api/wallet/[id]", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        namewallet,
+        totalbalance,
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      alert("Update success!");
+      fetchWalletData()
+    } else {
+      const err = await res.json();
+      alert("Error: " + err.error);
     }
   };
 
