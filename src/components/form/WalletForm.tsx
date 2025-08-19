@@ -13,8 +13,8 @@ const WalletForm = () => {
   const userid = session?.user?.userid;
   // console.log("userid",userid)
   const [wallets, setWallets] = useState<Wallet[]>([]);
-  const [edit, setEdit] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [editid, setEditid] = useState<number | null>(null);
 
   useEffect(() => {
     fetchWalletData();
@@ -67,7 +67,7 @@ const WalletForm = () => {
     if (res.ok) {
       const data = await res.json();
       alert("Update success!");
-      fetchWalletData()
+      fetchWalletData();
     } else {
       const err = await res.json();
       alert("Error: " + err.error);
@@ -85,11 +85,27 @@ const WalletForm = () => {
       <ul className="w-2.5/12 h-2/12 rounded-lg shadow-md">
         {wallets.map((wallet) => (
           <li key={wallet.walletid}>
-            {wallet.namewallet} - {wallet.totalbalance}
+            {editid === wallet.walletid ? (
+              <>
+                <form></form>
+              </>
+            ) : (
+              <>
+                {wallet.namewallet} - {wallet.totalbalance}
+                <button
+                  onClick={() => {
+                    setEditid(wallet.walletid);
+                    setNamewallet(wallet.namewallet);
+                    setTotalbalance(wallet.totalbalance);
+                  }}
+                >
+                  Edit
+                </button>
+              </>
+            )}
           </li>
         ))}
       </ul>
-      {edit ? <></> : <button onClick={() => setEdit(true)}>Edit</button>}
       <div className="border-1 border-black shadow-md">
         {adding ? (
           <form onSubmit={onSubmit}>
